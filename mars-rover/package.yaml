@@ -47,3 +47,4 @@ tests:
     dependencies:
     - mars-rover
     - hspec
+    - QuickCheck
