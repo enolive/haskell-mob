@@ -4,9 +4,6 @@ module MarsRover
   , Rover
   ) where
 
-import           Control.Monad (foldM)
-import           Data.Maybe    (fromMaybe)
-
 data Rover = Dummy deriving (Show)
 
 mkRover :: Rover
