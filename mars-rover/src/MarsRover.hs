@@ -7,7 +7,7 @@ module MarsRover
 data Rover = Dummy deriving (Show)
 
 mkRover :: Rover
-mkRover = error "implement me!"
+mkRover = Dummy
 
 commands :: Rover -> String -> Rover
-commands rover xs = error "implement me!"
+commands rover xs = rover
