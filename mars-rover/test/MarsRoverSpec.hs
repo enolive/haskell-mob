@@ -3,7 +3,7 @@ module MarsRoverSpec
   ) where
 
 import           MarsRover
-import           Test.Hspec        (Spec, context, describe, it, shouldBe)
+import           Test.Hspec
 
 spec :: Spec
 spec = describe "Mars Rover" $
