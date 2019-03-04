@@ -57,4 +57,4 @@ spec =
       it "ignores invalid single command" $
         property $ forAll (suchThat arbitrary isInvalidCommand) $ \c r -> command c r `shouldBe` Nothing
       it "ignores invalid list of commands" $
-        property $ forAll (suchThat arbitrary containsBothValidAndInvalidCommands) $ \c r -> commands r c `shouldBe` r
+        property $ forAll (suchThat arbitrary containsBothValidAndInvalidCommands) $ \cs r -> commands r cs `shouldBe` r
