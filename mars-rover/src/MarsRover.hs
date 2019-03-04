@@ -1,15 +1,15 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module MarsRover
-  ( backward
+  ( Orientation(..)
+  , Rover
+  , backward
   , command
   , commands
   , forward
   , mkRover
   , position
-  , Rover
   , orientation
-  , Orientation(..)
   , turnLeft
   , turnRight
   ) where

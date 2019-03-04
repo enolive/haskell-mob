@@ -5,7 +5,7 @@ module MarsRoverSpec
   ) where
 
 import           MarsRover
-import           Test.Hspec      (Spec, context, describe, it, shouldBe)
+import           Test.Hspec
 import           Test.QuickCheck
 
 instance Arbitrary Rover where
