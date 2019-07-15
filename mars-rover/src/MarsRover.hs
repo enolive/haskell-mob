@@ -10,4 +10,4 @@ mkRover :: Rover
 mkRover = Dummy
 
 commands :: Rover -> String -> Rover
-commands rover xs = rover
+commands rover _ = rover
