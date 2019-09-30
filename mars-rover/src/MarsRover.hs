@@ -1,21 +1,28 @@
+--{-# LANGUAGE DeriveAnyClass  #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE DeriveAnyClass #-}
 
 module MarsRover
   ( Orientation(..)
-  , Rover
+  , Rover(position, orientation)
   , backward
-  , command
   , commands
   , forward
   , mkRover
-  , position
-  , orientation
   , turnLeft
   , turnRight
   ) where
 
 import           Control.Monad (foldM)
 import           Data.Maybe    (fromMaybe)
+
+class (Eq a, Enum a, Bounded a) =>
+      CyclicEnum a
+  where
+  csucc :: a -> a
+  csucc val
+    | val == maxBound = minBound
+    | otherwise = succ val
 
 data Rover = Rover
   { position    :: Position
@@ -29,7 +36,7 @@ data Orientation
   | West
   | South
   | East
-  deriving (Bounded, Enum, Eq, Show)
+  deriving (Bounded, Enum, Eq, Show, CyclicEnum)
 
 mkRover :: Rover
 mkRover = Rover {position = (0, 0), orientation = North}
@@ -53,11 +60,7 @@ forward rover@Rover {..} = rover {position = newPosition orientation position}
     newPosition East (x, y)  = (x - 1, y)
 
 turnLeft :: Rover -> Rover
-turnLeft rover@Rover {..} = rover {orientation = newOrientation orientation}
-  where
-    newOrientation former
-      | former == maxBound = minBound
-      | otherwise = succ former
+turnLeft rover@Rover {..} = rover {orientation = csucc orientation}
 
 turnRight :: Rover -> Rover
 turnRight = turnLeft . turnLeft . turnLeft

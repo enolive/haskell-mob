@@ -44,17 +44,18 @@ spec =
       it "moves back by one field according to its orientation" $
         property $ \r -> backward r `shouldBe` (turnLeft . turnLeft . forward . turnLeft . turnLeft) r
     context "translating Char -> command" $ do
-      it "moves forward on 'f'" $ property $ \rover -> command 'f' rover `shouldBe` forward <$> Just rover
-      it "moves backward on 'b'" $ property $ \rover -> command 'b' rover `shouldBe` backward <$> Just rover
-      it "turns left on 'l'" $ property $ \rover -> command 'l' rover `shouldBe` turnLeft <$> Just rover
-      it "turns right on 'r'" $ property $ \rover -> command 'r' rover `shouldBe` turnRight <$> Just rover
+      it "moves forward on 'f'" $ property $ \rover -> commands rover "f" `shouldBe` forward rover
+      it "moves backward on 'b'" $ property $ \rover -> commands rover "b" `shouldBe` backward rover
+      it "turns left on 'l'" $ property $ \rover -> commands rover "l" `shouldBe` turnLeft rover
+      it "turns right on 'r'" $ property $ \rover -> commands rover "r" `shouldBe` turnRight rover
     context "multiple commands" $ do
       it "moves forward twice" $ commands mkRover "ff" `shouldBe` mkRover {position = (0, 2)}
       it "executes multiple commands" $
         commands mkRover "fflllrrbbbbff" `shouldBe` mkRover {position = (-2, 2), orientation = West}
     context "ignoring errors in input" $ do
       it "ignores invalid single command" $
-        property $ forAll (suchThat arbitrary isInvalidCommand) $ \char rover -> command char rover `shouldBe` Nothing
+        property $ forAll (suchThat arbitrary isInvalidCommand) $ \char rover -> commands rover [char] `shouldBe` rover
       it "ignores invalid list of commands" $
-        property $ forAll (suchThat arbitrary containsBothValidAndInvalidCommands) $
-          \list rover -> commands rover list `shouldBe` rover
+        property $
+        forAll (suchThat arbitrary containsBothValidAndInvalidCommands) $ \list rover ->
+          commands rover list `shouldBe` rover
